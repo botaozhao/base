@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kviuff.mapper.role.SysRoleMapper">
+
+    <resultMap id="BaseResultMap" type="com.kviuff.entity.SysRolePo">
+        <result column="role_code" property="roleCode"/>
+        <result column="role_name" property="roleName"/>
+        <result column="role_sort" property="roleSort"/>
+        <result column="is_sys" property="isSys"/>
+        <result column="create_by" property="createBy"/>
+        <result column="create_date" property="createDate"/>
+        <result column="update_by" property="updateBy"/>
+        <result column="update_date" property="updateDate"/>
+        <result column="remarks" property="remarks"/>
+    </resultMap>
+
+    <sql id="wherestatement">
+        WHERE 1 = 1
+
+        <if test="roleCode != null and roleCode != '' ">
+            AND role_code
+            LIKE CONCAT('%',#{roleCode},'%')
+        </if>
+        <if test="roleName != null and roleName != '' ">
+            AND role_name
+            LIKE CONCAT('%',#{roleName},'%')
+        </if>
+    </sql>
+
+
+    <select id="selectSysRoleByCondition" resultMap="BaseResultMap">
+        select * from sys_role
+        <include refid="wherestatement" />
+        order by create_date desc
+    </select>
+
+</mapper>

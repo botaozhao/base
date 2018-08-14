@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kviuff.mapper.menu.SysMenuMapper">
+
+    <resultMap id="BaseResultMap" type="com.kviuff.entity.SysMenuPo">
+        <result column="menu_code" property="menuCode"/>
+        <result column="parent_code" property="parentCode"/>
+        <result column="parent_codes" property="parentCodes"/>
+        <result column="tree_sort" property="treeSort"/>
+        <result column="tree_leaf" property="treeLeaf"/>
+        <result column="tree_level" property="treeLevel"/>
+        <result column="menu_name" property="menuName"/>
+        <result column="menu_type" property="menuType"/>
+        <result column="menu_href" property="menuHref"/>
+        <result column="menu_icon" property="menuIcon"/>
+        <result column="permission" property="permission"/>
+        <result column="weight" property="weight"/>
+        <result column="is_show" property="isShow"/>
+        <result column="status" property="status"/>
+        <result column="create_by" property="createBy"/>
+        <result column="create_date" property="createDate"/>
+        <result column="update_by" property="updateBy"/>
+        <result column="update_date" property="updateDate"/>
+        <result column="remarks" property="remarks"/>
+    </resultMap>
+
+    <sql id="whereStatement">
+        where 1 = 1
+        <if test="parentCode != null ">
+            and parent_code = #{parentCode}
+        </if>
+    </sql>
+
+    <select id="getMenuListByParams" parameterType="com.kviuff.entity.SysMenuPo" resultMap="BaseResultMap">
+        select * from sys_menu
+        <include refid="whereStatement" />
+        order by tree_sort desc
+    </select>
+
+</mapper>

@@ -1,0 +1,38 @@
+{
+    "msg": "",
+    "code": 0,
+    "data": [{
+        "sd_add_time": "2018-02-25 17:00:07",
+        "sd_code": "1",
+        "sd_id": "a8fd51263f854a3582f6cb1ced3f9e99",
+        "sd_idalls": "a8fd51263f854a3582f6cb1ced3f9e99",
+        "sd_idallvalue": "测试集团",
+        "name": "测试集团",
+        "sd_sort": 1,
+        "sd_type": "2",
+        "sd_up_id": null,
+        "sd_use": 1
+    }, {
+        "sd_add_time": "2018-03-13 08:54:31",
+        "sd_code": null,
+        "sd_id": "008EF28299814AA5AB4639EB6D1B4789",
+        "sd_idalls": null,
+        "sd_idallvalue": null,
+        "name": "测试班组44",
+        "sd_sort": null,
+        "sd_type": null,
+        "sd_up_id": "a8fd51263f854a3582f6cb1ced3f9e99",
+        "sd_use": 1
+    }, {
+        "sd_add_time": "2018-03-13 08:54:34",
+        "sd_code": null,
+        "sd_id": "00EEB1831C9B4CE9A17A11D1DEF85CFD",
+        "sd_idalls": null,
+        "sd_idallvalue": null,
+        "name": "测试班组59",
+        "sd_sort": null,
+        "sd_type": null,
+        "sd_up_id": "008EF28299814AA5AB4639EB6D1B4789",
+        "sd_use": 1
+    }]
+}
