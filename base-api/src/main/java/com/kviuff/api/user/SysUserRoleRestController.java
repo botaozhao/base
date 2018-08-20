@@ -1,4 +1,4 @@
-package com.kviuff.admin.controller.user;
+package com.kviuff.api.user;
 
 import com.github.pagehelper.PageInfo;
 import com.kviuff.common.R;

@@ -4,7 +4,7 @@ import com.github.pagehelper.PageInfo;
 
 import java.util.List;
 
-public class PageUtils {
+public class PageUtil {
     /**
      * 获取pageInfo实体
      */

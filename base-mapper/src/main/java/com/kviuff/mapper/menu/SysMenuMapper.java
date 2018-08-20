@@ -21,4 +21,11 @@ public interface SysMenuMapper extends BaseMapper<SysMenuPo> {
      */
     List<SysMenuPo> getMenuListByParams(SysMenuPo sysMenuPo);
 
+    /**
+     * 根据角色编码获取角色关联的菜单并去重
+     * @param roleCodes
+     * @return
+     */
+    List<SysMenuPo> selectMenuListByRoleCodes (List<String> roleCodes);
+
 }

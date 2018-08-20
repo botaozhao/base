@@ -13,8 +13,4 @@ public class CommonConstants {
      */
     public static final String VERIFICATION_CODE = "verificationCode";
 
-    /**
-     * 验证码-页面传入的常量
-     */
-    public static final String VALIDATE_CODE = "validate_code";
 }

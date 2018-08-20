@@ -1,17 +1,15 @@
-package com.kviuff.admin.controller.menu;
+package com.kviuff.api.menu;
 
 import com.kviuff.common.R;
 import com.kviuff.entity.SysMenuJsonPo;
 import com.kviuff.entity.SysMenuPo;
-import com.kviuff.service.menu.MenuService;
+import com.kviuff.service.menu.SysMenuService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 菜单接口-restful
@@ -27,7 +25,7 @@ public class SysMenuRestController {
      * 注入接口
      */
     @Autowired
-    private MenuService menuService;
+    private SysMenuService sysMenuService;
 
     /**
      * 根据编码查询菜单
@@ -37,7 +35,7 @@ public class SysMenuRestController {
      */
     @RequestMapping("/info/{menuCode}")
     public R findMenuByCode(@PathVariable("menuCode") String menuCode) {
-        SysMenuPo sysMenuPo = menuService.getMenuByCode(menuCode);
+        SysMenuPo sysMenuPo = sysMenuService.selectMenuByCode(menuCode);
         return R.ok().put("menu", sysMenuPo);
     }
 
@@ -48,7 +46,7 @@ public class SysMenuRestController {
      */
     @RequestMapping("/list")
     public R findAllMenu() {
-        List<SysMenuPo> sysMenuPoList = menuService.getMenuList();
+        List<SysMenuPo> sysMenuPoList = sysMenuService.selectMenuList();
         return R.ok().put("data", sysMenuPoList);
     }
 
@@ -60,7 +58,7 @@ public class SysMenuRestController {
     @RequestMapping("/save")
     public R saveMenu(@RequestBody SysMenuPo sysMenuPo) {
         initMenu(sysMenuPo);
-        menuService.insertMenu(sysMenuPo);
+        sysMenuService.insertMenu(sysMenuPo);
         return R.ok("保存成功");
     }
 
@@ -72,7 +70,7 @@ public class SysMenuRestController {
     @RequestMapping("/update")
     public R updateMenu(@RequestBody SysMenuPo sysMenuPo) {
         initMenu(sysMenuPo);
-        menuService.updateMenuByMenuCode(sysMenuPo);
+        sysMenuService.updateMenuByMenuCode(sysMenuPo);
         return R.ok("修改成功");
     }
 
@@ -87,12 +85,12 @@ public class SysMenuRestController {
         // 判断是否有下级菜单，如果有不允许删除
         SysMenuPo sysMenuPo = new SysMenuPo();
         sysMenuPo.setParentCode(menuCode);
-        List<SysMenuPo> sysMenuPoList = menuService.getMenuListByParams(sysMenuPo);
+        List<SysMenuPo> sysMenuPoList = sysMenuService.selectMenuListByParams(sysMenuPo);
         if (sysMenuPoList.size() > 0) {
             return R.error("请先删除子菜单");
         }
 
-        menuService.deleteMenu(menuCode);
+        sysMenuService.deleteMenu(menuCode);
         return R.ok("删除成功");
     }
 
@@ -103,7 +101,7 @@ public class SysMenuRestController {
      */
     @RequestMapping(value = "/json", method = RequestMethod.GET)
     public List<SysMenuJsonPo> getMenuJson() {
-        List<SysMenuPo> sysMenuPoList = menuService.getMenuList();
+        List<SysMenuPo> sysMenuPoList = sysMenuService.selectMenuList();
         List<SysMenuJsonPo> sysMenuJsonPoList = new ArrayList<>();
         for (SysMenuPo sysMenuPo : sysMenuPoList) {
             SysMenuJsonPo sysMenuJsonPo = new SysMenuJsonPo();
@@ -157,7 +155,7 @@ public class SysMenuRestController {
             sysMenuPo.setTreeLeaf(0);
             sysMenuPo.setTreeLevel(0);
         } else {  // 有父级
-            SysMenuPo sysMenuPo1 = menuService.getMenuByCode(parentCode);
+            SysMenuPo sysMenuPo1 = sysMenuService.selectMenuByCode(parentCode);
             String parentCodes = sysMenuPo1.getParentCodes();
             sysMenuPo.setParentCodes(parentCodes + parentCode + ",");
             Integer treeLevel = parentCodes.split(",").length;

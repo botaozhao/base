@@ -3,13 +3,15 @@ package com.kviuff.service.user.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.kviuff.common.IdGen;
-import com.kviuff.common.utils.PageUtils;
+import com.kviuff.common.utils.EncryptionUtil;
+import com.kviuff.common.utils.PageUtil;
 import com.kviuff.entity.SysUserPo;
 import com.kviuff.mapper.user.SysUserMapper;
 import com.kviuff.service.user.SysUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
 
@@ -32,6 +34,7 @@ public class SysUserServiceImpl implements SysUserService {
     @Override
     public void insertUser(SysUserPo sysUserPo) {
         sysUserPo.setUserCode(IdGen.uuid());
+        sysUserPo.setPassword(EncryptionUtil.entryptPassword(sysUserPo.getPassword()));
         sysUserMapper.insert(sysUserPo);
     }
 
@@ -59,7 +62,7 @@ public class SysUserServiceImpl implements SysUserService {
      * @return
      */
     @Override
-    public SysUserPo getUser(String userCode) {
+    public SysUserPo selectUser(String userCode) {
         return sysUserMapper.selectByPrimaryKey(userCode);
     }
 
@@ -69,9 +72,24 @@ public class SysUserServiceImpl implements SysUserService {
      * @return
      */
     @Override
-    public PageInfo<SysUserPo> findPageList(SysUserPo sysUserPo) {
+    public PageInfo<SysUserPo> selectPageList(SysUserPo sysUserPo) {
         PageHelper.startPage(sysUserPo.getPageNo(), sysUserPo.getPageSize());
         List<SysUserPo> sysUserPoList = sysUserMapper.selectSysUserByCondition(sysUserPo);
-        return PageUtils.pageInstance(sysUserPoList);
+        return PageUtil.pageInstance(sysUserPoList);
+    }
+
+    /**
+     * 根据条件获取用户单条信息
+     * @param sysUserPo
+     * @return
+     */
+    @Override
+    public SysUserPo selectOneByExample(SysUserPo sysUserPo) {
+
+        Example example = new Example(SysUserPo.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("loginCode", sysUserPo.getLoginCode());
+        SysUserPo sysUserPo1 = sysUserMapper.selectOneByExample(example);
+        return sysUserPo1;
     }
 }

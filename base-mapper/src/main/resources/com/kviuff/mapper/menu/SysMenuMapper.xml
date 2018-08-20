@@ -33,8 +33,18 @@
 
     <select id="getMenuListByParams" parameterType="com.kviuff.entity.SysMenuPo" resultMap="BaseResultMap">
         select * from sys_menu
-        <include refid="whereStatement" />
+        <include refid="whereStatement"/>
         order by tree_sort desc
+    </select>
+
+    <select id="selectMenuListByRoleCodes" resultMap="BaseResultMap" parameterType="java.util.List">
+        select distinct m.menu_name, m.menu_code, m.parent_code, m.parent_codes, m.tree_sort, m.menu_type, m.menu_href,
+        m.permission from sys_menu m
+        left join sys_role_menu rm on rm.menu_code = m.menu_code
+        where rm.role_code in
+        <foreach collection="roleCodes" item="roleCode" index="index" open="(" separator="," close=")">
+            #{roleCode}
+        </foreach>
     </select>
 
 </mapper>

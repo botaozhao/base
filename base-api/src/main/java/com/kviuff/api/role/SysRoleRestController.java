@@ -1,4 +1,4 @@
-package com.kviuff.admin.controller.role;
+package com.kviuff.api.role;
 
 import com.github.pagehelper.PageInfo;
 import com.kviuff.common.R;
@@ -6,7 +6,7 @@ import com.kviuff.entity.SysMenuJsonPo;
 import com.kviuff.entity.SysMenuPo;
 import com.kviuff.entity.SysRoleMenuPo;
 import com.kviuff.entity.SysRolePo;
-import com.kviuff.service.menu.MenuService;
+import com.kviuff.service.menu.SysMenuService;
 import com.kviuff.service.role.SysRoleMenuService;
 import com.kviuff.service.role.SysRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +32,7 @@ public class SysRoleRestController {
     private SysRoleMenuService sysRoleMenuService;
 
     @Autowired
-    private MenuService menuService;
+    private SysMenuService sysMenuService;
 
     /**
      * 获取角色分页数据
@@ -161,7 +161,7 @@ public class SysRoleRestController {
         sysRoleMenuPo.setRoleCode(roleCode);
         List<SysRoleMenuPo> sysRoleMenuPoList = sysRoleMenuService.selectByExample(sysRoleMenuPo);
 
-        List<SysMenuPo> sysMenuPoList = menuService.getMenuList();
+        List<SysMenuPo> sysMenuPoList = sysMenuService.selectMenuList();
         List<SysMenuJsonPo> sysMenuJsonPoList = new ArrayList<>();
         for (SysMenuPo sysMenuPo : sysMenuPoList) {
             SysMenuJsonPo sysMenuJsonPo = new SysMenuJsonPo();

@@ -53,7 +53,7 @@ public class SysUserController {
     @RequestMapping("edit/{userCode}")
     public ModelAndView edit(@PathVariable String userCode) {
         ModelAndView mv = new ModelAndView(EDIT_PAGE);
-        SysUserPo sysUserPo = sysUserService.getUser(userCode);
+        SysUserPo sysUserPo = sysUserService.selectUser(userCode);
         mv.addObject("sysUserPo", sysUserPo);
         return mv;
     }

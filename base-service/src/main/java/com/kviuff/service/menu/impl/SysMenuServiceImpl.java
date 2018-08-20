@@ -3,7 +3,7 @@ package com.kviuff.service.menu.impl;
 import com.kviuff.common.IdGen;
 import com.kviuff.entity.SysMenuPo;
 import com.kviuff.mapper.menu.SysMenuMapper;
-import com.kviuff.service.menu.MenuService;
+import com.kviuff.service.menu.SysMenuService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +17,7 @@ import java.util.List;
  */
 @Service
 @Slf4j
-public class MenuServiceImpl implements MenuService {
+public class SysMenuServiceImpl implements SysMenuService {
 
     @Autowired
     private SysMenuMapper sysMenuMapper;
@@ -56,7 +56,7 @@ public class MenuServiceImpl implements MenuService {
      * @return
      */
     @Override
-    public SysMenuPo getMenuByCode(String menuCode) {
+    public SysMenuPo selectMenuByCode(String menuCode) {
         return sysMenuMapper.selectByPrimaryKey(menuCode);
     }
 
@@ -65,7 +65,7 @@ public class MenuServiceImpl implements MenuService {
      * @return
      */
     @Override
-    public List<SysMenuPo> getMenuList() {
+    public List<SysMenuPo> selectMenuList() {
         return sysMenuMapper.selectAll();
     }
 
@@ -75,7 +75,17 @@ public class MenuServiceImpl implements MenuService {
      * @return
      */
     @Override
-    public List<SysMenuPo> getMenuListByParams(SysMenuPo sysMenuPo) {
+    public List<SysMenuPo> selectMenuListByParams(SysMenuPo sysMenuPo) {
         return sysMenuMapper.getMenuListByParams(sysMenuPo);
+    }
+
+    /**
+     * 根据角色编码获取角色关联的菜单并去重
+     * @param roleCodes
+     * @return
+     */
+    @Override
+    public List<SysMenuPo> selectMenuListByRoleCodes(List<String> roleCodes) {
+        return sysMenuMapper.selectMenuListByRoleCodes(roleCodes);
     }
 }

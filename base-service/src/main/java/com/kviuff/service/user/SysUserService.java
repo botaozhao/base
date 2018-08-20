@@ -34,12 +34,19 @@ public interface SysUserService {
      * @param userCode
      * @return
      */
-    SysUserPo getUser(String userCode);
+    SysUserPo selectUser(String userCode);
 
     /**
      * 分页查询
      * @param sysUserPo
      * @return
      */
-    PageInfo<SysUserPo> findPageList(SysUserPo sysUserPo);
+    PageInfo<SysUserPo> selectPageList(SysUserPo sysUserPo);
+
+    /**
+     * 根据条件获取用户单条信息
+     * @param sysUserPo
+     * @return
+     */
+    SysUserPo selectOneByExample(SysUserPo sysUserPo);
 }

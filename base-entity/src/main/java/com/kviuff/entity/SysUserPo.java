@@ -7,6 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 用户实体
@@ -71,5 +72,8 @@ public class SysUserPo extends BasePo {
      * 备注
      */
     private String remarks;
+
+
+    private List<SysUserRolePo> sysUserRolePoList;
 
 }

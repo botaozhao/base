@@ -21,17 +21,17 @@ import java.util.Map;
  *
  * @author panda
  */
-public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
+public class DateUtil extends org.apache.commons.lang3.time.DateUtils {
     /**
      * 私有化构造
      */
-    private DateUtils() {
+    private DateUtil() {
     }
 
     /**
      * 日志信息
      */
-    private final static Logger log = LoggerFactory.getLogger(DateUtils.class);
+    private final static Logger log = LoggerFactory.getLogger(DateUtil.class);
 
     /**
      *

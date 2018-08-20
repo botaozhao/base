@@ -1,7 +1,7 @@
 package com.kviuff.admin.controller.menu;
 
 import com.kviuff.entity.SysMenuPo;
-import com.kviuff.service.menu.MenuService;
+import com.kviuff.service.menu.SysMenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,7 +22,7 @@ public class SysMenuController {
     final static String EDIT_PAGE = "/modules/sys/menu/edit";
 
     @Autowired
-    private MenuService menuService;
+    private SysMenuService menuService;
 
     /**
      * 加载列表页
@@ -54,7 +54,7 @@ public class SysMenuController {
      */
     @RequestMapping("edit/{menuCode}")
     public ModelAndView edit(@PathVariable String menuCode) {
-        SysMenuPo sysMenuPo = menuService.getMenuByCode(menuCode);
+        SysMenuPo sysMenuPo = menuService.selectMenuByCode(menuCode);
         ModelAndView mv = new ModelAndView(EDIT_PAGE);
         mv.addObject("sysMenuPo", sysMenuPo);
         return mv;

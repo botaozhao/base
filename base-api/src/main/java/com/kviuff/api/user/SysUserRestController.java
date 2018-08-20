@@ -1,4 +1,4 @@
-package com.kviuff.admin.controller.user;
+package com.kviuff.api.user;
 
 
 import com.github.pagehelper.PageInfo;
@@ -56,7 +56,7 @@ public class SysUserRestController {
         sysUserPo.setEmail(email);
         sysUserPo.setMobile(mobile);
         sysUserPo.setStatus(status);
-        PageInfo<SysUserPo> sysUserPoPageInfo = sysUserService.findPageList(sysUserPo);
+        PageInfo<SysUserPo> sysUserPoPageInfo = sysUserService.selectPageList(sysUserPo);
         Map<String, Object> map = new HashMap<>();
         map.put("count", sysUserPoPageInfo.getTotal());
         map.put("data", sysUserPoPageInfo.getList());
