@@ -1,4 +1,4 @@
-package com.kviuff.service.user.impl;
+package com.kviuff.impl.user.impl;
 
 import com.kviuff.entity.SysUserRolePo;
 import com.kviuff.mapper.user.SysUserRoleMapper;

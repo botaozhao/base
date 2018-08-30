@@ -1,4 +1,4 @@
-package com.kviuff.service.menu.impl;
+package com.kviuff.impl.menu.impl;
 
 import com.kviuff.common.IdGen;
 import com.kviuff.entity.SysMenuPo;

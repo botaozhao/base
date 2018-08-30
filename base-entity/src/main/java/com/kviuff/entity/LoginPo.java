@@ -29,7 +29,7 @@ public class LoginPo {
     /**
      * 记住登录状态
      */
-    private String isRemeber;
+    private String rememberMe;
 
     /**
      * 存入redis的键

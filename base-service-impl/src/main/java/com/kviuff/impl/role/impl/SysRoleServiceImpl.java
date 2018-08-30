@@ -1,4 +1,4 @@
-package com.kviuff.service.role.impl;
+package com.kviuff.impl.role.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;

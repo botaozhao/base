@@ -11,6 +11,7 @@ import com.kviuff.shiro.ShiroToken;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.ExcessiveAttemptsException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.session.Session;
@@ -54,7 +55,7 @@ public class LoginRestController {
         // 密码
         String password = loginPo.getPassword();
         // 记住密码
-        String remeberMe = loginPo.getIsRemeber();
+        String remeberMe = loginPo.getRememberMe();
         // 存入redis的键
         String tokenCode = loginPo.getTokenCode();
         Subject subject = SecurityUtils.getSubject();
@@ -80,10 +81,13 @@ public class LoginRestController {
         } catch (UnknownAccountException e) {
             log.info("用户不存在：" + loginCode);
             return R.error("用户不存在");
+        } catch (ExcessiveAttemptsException e) {
+            log.info("密码输入错误5次，禁止登录，用户名：" + loginCode);
+            return R.error("密码输入错误5次，禁止登录。请5分钟分重试");
         } catch (IncorrectCredentialsException e) {
             log.info("用户或密码错误：" + loginCode);
-            return R.error("用户或密码错误");
-        }catch (Exception e) {
+            return R.error("用户名或密码错误");
+        } catch (Exception e) {
             log.info("登入出错：" + e.getMessage());
             return R.error("登入出错");
         }
@@ -105,6 +109,18 @@ public class LoginRestController {
         }
     }
 
+    /**
+     * 获取用户登录信息
+     * @return
+     */
+    @RequestMapping("/getInfo")
+    public R getInfo() {
+        SysUserPo sysUserPo = (SysUserPo) SecurityUtils.getSubject().getPrincipal();
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("data", sysUserPo);
+        return R.ok(map);
+    }
+
 
     /**
      * 登录操作
@@ -118,7 +134,6 @@ public class LoginRestController {
         map.put("code", "1000000");
         map.put("msg", "未登录");
         return R.ok(map);
-
     }
 
 }

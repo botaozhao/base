@@ -52,7 +52,7 @@ public class ShiroConfig {
      */
     @Bean
     public ShiroMatcher customCredentialsMatcher() {
-        ShiroMatcher shiroMatcher = new ShiroMatcher();
+        ShiroMatcher shiroMatcher = new ShiroMatcher(cacheManager());
         // 指定加密方式
         shiroMatcher.setHashAlgorithmName(EncryptionUtils.SHA1);
         // 加密次数
@@ -69,10 +69,10 @@ public class ShiroConfig {
      */
     @Bean
     public SimpleCookie simpleCookie() {
-        //这个参数是cookie的名称，对应前端的checkbox的name = isRemeber
-        SimpleCookie simpleCookie = new SimpleCookie("isRemeber");
+        //这个参数是cookie的名称，对应前端的checkbox的name = rememberMe
+        SimpleCookie simpleCookie = new SimpleCookie("rememberMe");
         //<!-- 记住我cookie生效时间30天 ,单位秒;-->
-        simpleCookie.setMaxAge(259200);
+        simpleCookie.setMaxAge(3600);
         return simpleCookie;
     }
 
@@ -86,7 +86,6 @@ public class ShiroConfig {
     public CookieRememberMeManager cookieRememberMeManager() {
         CookieRememberMeManager cookieRememberMeManager = new CookieRememberMeManager();
         cookieRememberMeManager.setCookie(simpleCookie());
-        cookieRememberMeManager.setCipherKey(Base64.decodeBase64("5AvVhdsgUs9FSA4SDFAdag=="));
         return cookieRememberMeManager;
     }
 
@@ -146,7 +145,8 @@ public class ShiroConfig {
         RedisManager redisManager = new RedisManager();
         redisManager.setHost(host);
         redisManager.setPort(port);
-        redisManager.setExpire(1800);// 配置缓存过期时间
+        // 配置缓存过期时间
+        redisManager.setExpire(1800);
         redisManager.setTimeout(timeout);
         redisManager.setPassword(password);
         return redisManager;
@@ -220,11 +220,9 @@ public class ShiroConfig {
         bean.setSuccessUrl("/");
         // 设置未授权跳转的页面
         // bean.setUnauthorizedUrl("/pages/unauthorized.jsp");
-        //定义过滤器
+        //定义过滤器，map必须用：LinkedHashMap，因为它必须保证有序
         LinkedHashMap<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
-        filterChainDefinitionMap.put("/index", "authc");
         filterChainDefinitionMap.put("/login", "anon");
-        filterChainDefinitionMap.put("/login/defaultKaptcha", "anon");
         filterChainDefinitionMap.put("/rest/login/doLogin", "anon");
         filterChainDefinitionMap.put("/static/**", "anon");
         filterChainDefinitionMap.put("/rest/**", "anon");

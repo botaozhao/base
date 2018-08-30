@@ -1,4 +1,4 @@
-package com.kviuff.service.user.impl;
+package com.kviuff.impl.user.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;

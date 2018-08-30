@@ -1,4 +1,4 @@
-package com.kviuff.service.role.impl;
+package com.kviuff.impl.role.impl;
 
 import com.kviuff.entity.SysRoleMenuPo;
 import com.kviuff.mapper.role.SysRoleMenuMapper;

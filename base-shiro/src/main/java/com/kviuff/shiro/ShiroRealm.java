@@ -8,6 +8,7 @@ import com.kviuff.service.menu.SysMenuService;
 import com.kviuff.service.user.SysUserRoleService;
 import com.kviuff.service.user.SysUserService;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
@@ -59,9 +60,12 @@ public class ShiroRealm extends AuthorizingRealm {
         List<SysUserRolePo> sysUserRolePoList = new ArrayList<>();
         List<String> roleCodes = new ArrayList<>();
         List<String> permissions = new ArrayList<>();
+        SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
         // 获取用户的菜单权限和功能权限
-        if ("1".equals(userType)) { // 超级管理员，所有菜单的权限
-            sysMenuPoList = sysMenuService.selectMenuList();
+        if ("1".equals(userType)) { // 超级管理员，所有的权限
+            // sysMenuPoList = sysMenuService.selectMenuList();
+            simpleAuthorizationInfo.addRole("*");
+            simpleAuthorizationInfo.addStringPermission("*");
         } else { // 非超级管理员，根据角色获取菜单权限
             // 获取用户所拥有的角色列表
             SysUserRolePo sysUserRolePo = new SysUserRolePo();
@@ -71,21 +75,19 @@ public class ShiroRealm extends AuthorizingRealm {
                 roleCodes.add(sysUserRolePo1.getRoleCode());
             }
             sysMenuPoList = sysMenuService.selectMenuListByRoleCodes(roleCodes);
-        }
-        SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
 
-        // 获取所拥有的功能权限
-        for (SysMenuPo sysMenuPo : sysMenuPoList) {
-            String permission = sysMenuPo.getPermission();
-            if (StringUtils.isNotEmpty(permission)) {
-                permissions.add(permission);
+            // 获取所拥有的功能权限
+            for (SysMenuPo sysMenuPo : sysMenuPoList) {
+                String permission = sysMenuPo.getPermission();
+                if (StringUtils.isNotEmpty(permission)) {
+                    permissions.add(permission);
+                }
             }
+
+            simpleAuthorizationInfo.addRoles(roleCodes);
+            simpleAuthorizationInfo.addStringPermissions(permissions);
         }
-
-        simpleAuthorizationInfo.addRoles(roleCodes);
-        simpleAuthorizationInfo.addStringPermissions(permissions);
-
-        return null;
+        return simpleAuthorizationInfo;
     }
 
     /**
@@ -168,6 +170,13 @@ public class ShiroRealm extends AuthorizingRealm {
             return loginCode;
         }
 
+    }
+
+    /**
+     * 清除所有缓存
+     */
+    public void clearCachedAuth(){
+        this.clearCachedAuthorizationInfo(SecurityUtils.getSubject().getPrincipals());
     }
 
 }

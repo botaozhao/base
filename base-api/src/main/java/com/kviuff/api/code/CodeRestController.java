@@ -46,7 +46,7 @@ public class CodeRestController {
             String img = imgResult.getImg();
             String code = imgResult.getCode();
             log.info("the captcha is:" + code);
-            redisService.set(UUID, code, 60);
+            redisService.set(UUID, code, 1);
             // 将验证码的key及验证码的图片返回
             Map<String, Object> map = new HashMap<>();
             map.put("tokenCode", UUID);
