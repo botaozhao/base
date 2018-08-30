@@ -5,11 +5,6 @@ var ROLE = {
     LIMIT_COUNT: 1,
     // 当前页
     CUR_NUM: 1,
-    ADD_PAGE_URL: "/sys/role/add",
-    EDIT_PAGE_URL: "/sys/role/edit/",
-    DATA_LIST_URL: "/rest/sys/role/list",
-    DATA_DELETE_URL: "/rest/sys/role/delete/",
-    ROLE_SETTING_URL: "/sys/role/rolemenu/",
     ADD_EDIT_TITLE: {'0':'编辑角色', '1':'新增角色'},
     ADD_EDIT_TIP: "点击此处返回角色列表",
     IS_SYS: {'1':'是', '0':'否'},
@@ -29,7 +24,7 @@ ROLE.addOrEdit = function (thisCode, edit){
     var index = layui.layer.open({
         title : edit ? ROLE.ADD_EDIT_TITLE[0] : ROLE.ADD_EDIT_TITLE[1],
         type : 2,
-        content : edit ? ROLE.EDIT_PAGE_URL + thisCode : ROLE.ADD_PAGE_URL,
+        content : edit ? URL_PAGE_OBJ.ROLE_EDIT_PAGE_URL + thisCode : URL_PAGE_OBJ.ROLE_ADD_PAGE_URL,
         success : function(layero, index){
             setTimeout(function(){
                 layui.layer.tips(ROLE.ADD_EDIT_TIP, '.layui-layer-setwin .layui-layer-close', {
@@ -53,7 +48,7 @@ ROLE.delete = function (thisCode) {
     var $ = layui.$;
     $.ajax({
         type : "POST",
-        url : ROLE.DATA_DELETE_URL + "/" + thisCode,
+        url : URL_REST_OBJ.ROLE_DEL_URL + "/" + thisCode,
         async : false,
         contentType: "application/json",
         dataType : "json",
@@ -89,7 +84,7 @@ ROLE.roleSetting = function (thisCode){
     var index = layui.layer.open({
         title : ROLE.ROLE_SETTING_TITLE,
         type : 2,
-        content : ROLE.ROLE_SETTING_URL + thisCode,
+        content : URL_PAGE_OBJ.ROLE_MENU_PAGE_URL + thisCode,
         success : function(layero, index){
             setTimeout(function(){
                 layui.layer.tips(ROLE.ADD_EDIT_TIP, '.layui-layer-setwin .layui-layer-close', {
@@ -115,7 +110,7 @@ layui.config({
 
     var listTable = table.render({
         elem: '#' + ROLE.TABLE_ELEMENT,
-        url: ROLE.DATA_LIST_URL,
+        url: URL_REST_OBJ.ROLE_LIST_URL,
         cols: [[
             {type:'numbers'},
             {field: 'roleName', title: '角色名称'},

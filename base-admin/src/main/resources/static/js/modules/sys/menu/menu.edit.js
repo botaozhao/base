@@ -1,7 +1,5 @@
 var MENU = {
-    TREE_ELEMENT: "parentCode",
-    EDIT_URL: "/rest/sys/menu/update",
-    LIST_JSON_URL: "/rest/sys/menu/json"
+    TREE_ELEMENT: "parentCode"
 };
 
 layui.config({
@@ -32,7 +30,7 @@ layui.config({
     form.on('submit(component-form-save)', function (data) {
         $.ajax({
             type : "POST",
-            url : MENU.EDIT_URL,
+            url : URL_REST_OBJ.MENU_UPDATE_URL,
             data : JSON.stringify(data.field),
             async : false,
             contentType: "application/json",
@@ -58,12 +56,10 @@ layui.config({
     /**
      * 渲染下拉树
      */
-
     var menuCode = $("#menuCode").val();
-
     treeselect.render({
         elem: "#" + MENU.TREE_ELEMENT,
-        data : MENU.LIST_JSON_URL,
+        data : URL_REST_OBJ.MENU_JSON_URL,
         method: "GET",
         value: menuCode
     });

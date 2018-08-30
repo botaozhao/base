@@ -1,11 +1,19 @@
 package com.kviuff.shiro;
 
-import com.kviuff.common.utils.EncryptionUtil;
+import com.kviuff.common.util.EncryptionUtils;
+import com.kviuff.shiro.session.CustomSessionManager;
 import org.apache.commons.codec.binary.Base64;
+import org.apache.shiro.session.mgt.SessionManager;
+import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.CookieRememberMeManager;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.servlet.SimpleCookie;
+import org.crazycake.shiro.RedisCacheManager;
+import org.crazycake.shiro.RedisManager;
+import org.crazycake.shiro.RedisSessionDAO;
+import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -21,6 +29,19 @@ import java.util.LinkedHashMap;
 public class ShiroConfig {
 
 
+    @Value("${spring.redis.host}")
+    private String host;
+
+    @Value("${spring.redis.password}")
+    private String password;
+
+    @Value("${spring.redis.port}")
+    private int port;
+
+    @Value("${spring.redis.timeout}")
+    private int timeout;
+
+
     /**
      * 密码校验规则HashedCredentialsMatcher
      * 这个类是为了对密码进行编码的 ,
@@ -33,9 +54,9 @@ public class ShiroConfig {
     public ShiroMatcher customCredentialsMatcher() {
         ShiroMatcher shiroMatcher = new ShiroMatcher();
         // 指定加密方式
-        shiroMatcher.setHashAlgorithmName(EncryptionUtil.SHA1);
+        shiroMatcher.setHashAlgorithmName(EncryptionUtils.SHA1);
         // 加密次数
-        shiroMatcher.setHashIterations(EncryptionUtil.HASH_INTERATIONS);
+        shiroMatcher.setHashIterations(EncryptionUtils.HASH_INTERATIONS);
         shiroMatcher.setStoredCredentialsHexEncoded(true);
         return shiroMatcher;
     }
@@ -65,7 +86,7 @@ public class ShiroConfig {
     public CookieRememberMeManager cookieRememberMeManager() {
         CookieRememberMeManager cookieRememberMeManager = new CookieRememberMeManager();
         cookieRememberMeManager.setCookie(simpleCookie());
-        cookieRememberMeManager.setCipherKey(Base64.decodeBase64("2AvVhdsgUs0FSA3SDFAdag=="));
+        cookieRememberMeManager.setCipherKey(Base64.decodeBase64("5AvVhdsgUs9FSA4SDFAdag=="));
         return cookieRememberMeManager;
     }
 
@@ -93,8 +114,92 @@ public class ShiroConfig {
     public DefaultWebSecurityManager securityManager(ShiroRealm shiroRealm) {
         DefaultWebSecurityManager manager = new DefaultWebSecurityManager();
         manager.setRealm(shiroRealm);
+        // 管理记住登录状态
         manager.setRememberMeManager(cookieRememberMeManager());
+        // 自定义session管理 使用redis
+        manager.setSessionManager(sessionManager());
+        // 自定义缓存实现 使用redis
+        manager.setCacheManager(cacheManager());
         return manager;
+    }
+
+
+    /**
+     * 自定义sessionManager
+     *
+     * @return
+     */
+    @Bean
+    public SessionManager sessionManager() {
+        CustomSessionManager customSessionManager = new CustomSessionManager();
+        customSessionManager.setSessionDAO(redisSessionDAO());
+        return customSessionManager;
+    }
+
+    /**
+     * 配置shiro redisManager
+     * 使用的是shiro-redis开源插件
+     *
+     * @return
+     */
+    public RedisManager redisManager() {
+        RedisManager redisManager = new RedisManager();
+        redisManager.setHost(host);
+        redisManager.setPort(port);
+        redisManager.setExpire(1800);// 配置缓存过期时间
+        redisManager.setTimeout(timeout);
+        redisManager.setPassword(password);
+        return redisManager;
+    }
+
+    /**
+     * cacheManager 缓存 redis实现
+     * 使用的是shiro-redis开源插件
+     *
+     * @return
+     */
+    public RedisCacheManager cacheManager() {
+        RedisCacheManager redisCacheManager = new RedisCacheManager();
+        redisCacheManager.setRedisManager(redisManager());
+        return redisCacheManager;
+    }
+
+    /**
+     * 开启shiro aop注解支持.
+     * 使用代理方式;所以需要开启代码支持;
+     *
+     * @param securityManager
+     * @return
+     */
+    @Bean
+    public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(DefaultWebSecurityManager securityManager) {
+        AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor = new AuthorizationAttributeSourceAdvisor();
+        authorizationAttributeSourceAdvisor.setSecurityManager(securityManager);
+        return authorizationAttributeSourceAdvisor;
+    }
+
+
+    /**
+     * RedisSessionDAO shiro sessionDao层的实现 通过redis
+     * 使用的是shiro-redis开源插件
+     */
+    @Bean
+    public RedisSessionDAO redisSessionDAO() {
+        RedisSessionDAO redisSessionDAO = new RedisSessionDAO();
+        redisSessionDAO.setRedisManager(redisManager());
+        return redisSessionDAO;
+    }
+
+    /***
+     * 授权所用配置
+     *
+     * @return
+     */
+    @Bean
+    public DefaultAdvisorAutoProxyCreator getDefaultAdvisorAutoProxyCreator() {
+        DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator = new DefaultAdvisorAutoProxyCreator();
+        defaultAdvisorAutoProxyCreator.setProxyTargetClass(true);
+        return defaultAdvisorAutoProxyCreator;
     }
 
     /**
@@ -110,7 +215,7 @@ public class ShiroConfig {
         bean.setSecurityManager(manager);
         // 设置登录页面
         // 可以写路由也可以写jsp页面的访问路径
-        bean.setLoginUrl("/login");
+        bean.setLoginUrl("/rest/login/unAuth");
         // 设置登录成功跳转的页面
         bean.setSuccessUrl("/");
         // 设置未授权跳转的页面
@@ -122,6 +227,7 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/login/defaultKaptcha", "anon");
         filterChainDefinitionMap.put("/rest/login/doLogin", "anon");
         filterChainDefinitionMap.put("/static/**", "anon");
+        filterChainDefinitionMap.put("/rest/**", "anon");
         // filterChainDefinitionMap.put("/loginUser", "anon");
         // filterChainDefinitionMap.put("/admin", "roles[admin]");
         // filterChainDefinitionMap.put("/edit", "perms[delete]");

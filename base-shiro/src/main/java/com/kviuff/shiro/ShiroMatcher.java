@@ -1,6 +1,6 @@
 package com.kviuff.shiro;
 
-import com.kviuff.common.utils.EncryptionUtil;
+import com.kviuff.common.util.EncryptionUtils;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
@@ -22,6 +22,6 @@ public class ShiroMatcher extends HashedCredentialsMatcher {
             return true;
         }
         //将密码加密与系统加密后的密码校验，内容一致就返回true,不一致就返回false
-        return EncryptionUtil.validatePassword(String.valueOf(token.getPassword()), accountCredentials + "");
+        return EncryptionUtils.validatePassword(String.valueOf(token.getPassword()), accountCredentials + "");
     }
 }

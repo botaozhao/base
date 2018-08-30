@@ -30,4 +30,9 @@ public class LoginPo {
      * 记住登录状态
      */
     private String isRemeber;
+
+    /**
+     * 存入redis的键
+     */
+    private String tokenCode;
 }

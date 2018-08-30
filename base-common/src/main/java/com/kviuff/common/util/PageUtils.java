@@ -1,10 +1,10 @@
-package com.kviuff.common.utils;
+package com.kviuff.common.util;
 
 import com.github.pagehelper.PageInfo;
 
 import java.util.List;
 
-public class PageUtil {
+public class PageUtils {
     /**
      * 获取pageInfo实体
      */

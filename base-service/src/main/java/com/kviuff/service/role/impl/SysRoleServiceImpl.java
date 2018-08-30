@@ -3,7 +3,7 @@ package com.kviuff.service.role.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.kviuff.common.IdGen;
-import com.kviuff.common.utils.PageUtil;
+import com.kviuff.common.util.PageUtils;
 import com.kviuff.entity.SysRolePo;
 import com.kviuff.mapper.role.SysRoleMapper;
 import com.kviuff.service.role.SysRoleService;
@@ -73,6 +73,6 @@ public class SysRoleServiceImpl implements SysRoleService {
     public PageInfo<SysRolePo> findPageList(SysRolePo sysRolePo) {
         PageHelper.startPage(sysRolePo.getPageNo(), sysRolePo.getPageSize());
         List<SysRolePo> sysRolePoList = sysRoleMapper.selectSysRoleByCondition(sysRolePo);
-        return PageUtil.pageInstance(sysRolePoList);
+        return PageUtils.pageInstance(sysRolePoList);
     }
 }

@@ -1,6 +1,6 @@
 package com.kviuff.shiro;
 
-import com.kviuff.common.utils.EncodesUtil;
+import com.kviuff.common.util.EncodesUtils;
 import com.kviuff.entity.SysMenuPo;
 import com.kviuff.entity.SysUserPo;
 import com.kviuff.entity.SysUserRolePo;
@@ -113,7 +113,7 @@ public class ShiroRealm extends AuthorizingRealm {
             logger.info("用户" + name + "不存在");
             throw new UnknownAccountException();
         } else {
-            byte[] salt = EncodesUtil.decodeHex(sysUserPo.getPassword().substring(0,16));
+            byte[] salt = EncodesUtils.decodeHex(sysUserPo.getPassword().substring(0,16));
             return new SimpleAuthenticationInfo(new Principal(sysUserPo),
                     sysUserPo.getPassword(), ByteSource.Util.bytes(salt), getName());
         }

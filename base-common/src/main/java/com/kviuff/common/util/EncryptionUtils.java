@@ -1,4 +1,4 @@
-package com.kviuff.common.utils;
+package com.kviuff.common.util;
 
 import org.apache.commons.lang3.Validate;
 
@@ -14,7 +14,7 @@ import java.security.SecureRandom;
  * @author kanglan
  * @date 2018/08/15
  */
-public class EncryptionUtil {
+public class EncryptionUtils {
 
     public static final String SHA1 = "SHA-1";
     public static final String MD5 = "MD5";
@@ -68,7 +68,7 @@ public class EncryptionUtil {
             }
             return result;
         } catch (GeneralSecurityException e) {
-            throw ExceptionsUtil.unchecked(e);
+            throw ExceptionsUtils.unchecked(e);
         }
     }
 
@@ -113,7 +113,7 @@ public class EncryptionUtil {
 
             return messageDigest.digest();
         } catch (GeneralSecurityException e) {
-            throw ExceptionsUtil.unchecked(e);
+            throw ExceptionsUtils.unchecked(e);
         }
     }
 
@@ -121,9 +121,9 @@ public class EncryptionUtil {
      * 生成安全的密码，生成随机的16位salt并经过1024次 sha-1 hash
      */
     public static String entryptPassword(String plainPassword) {
-        byte[] salt = EncryptionUtil.generateSalt(SALT_SIZE);
-        byte[] hashPassword = EncryptionUtil.sha1(plainPassword.getBytes(), salt, HASH_INTERATIONS);
-        return EncodesUtil.encodeHex(salt)+EncodesUtil.encodeHex(hashPassword);
+        byte[] salt = EncryptionUtils.generateSalt(SALT_SIZE);
+        byte[] hashPassword = EncryptionUtils.sha1(plainPassword.getBytes(), salt, HASH_INTERATIONS);
+        return EncodesUtils.encodeHex(salt)+ EncodesUtils.encodeHex(hashPassword);
     }
 
     /**
@@ -133,9 +133,9 @@ public class EncryptionUtil {
      * @return 验证成功返回true
      */
     public static boolean validatePassword(String plainPassword, String password) {
-        byte[] salt = EncodesUtil.decodeHex(password.substring(0,16));
-        byte[] hashPassword = EncryptionUtil.sha1(plainPassword.getBytes(), salt, HASH_INTERATIONS);
-        return password.equals(EncodesUtil.encodeHex(salt)+EncodesUtil.encodeHex(hashPassword));
+        byte[] salt = EncodesUtils.decodeHex(password.substring(0,16));
+        byte[] hashPassword = EncryptionUtils.sha1(plainPassword.getBytes(), salt, HASH_INTERATIONS);
+        return password.equals(EncodesUtils.encodeHex(salt)+ EncodesUtils.encodeHex(hashPassword));
     }
 
     public static void main(String[] args) {

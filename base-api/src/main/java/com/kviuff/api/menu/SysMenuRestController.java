@@ -149,7 +149,7 @@ public class SysMenuRestController {
      */
     private void initMenu (SysMenuPo sysMenuPo) {
         String parentCode = sysMenuPo.getParentCode();
-        if (StringUtils.isEmpty(parentCode)) { // 没有父级
+        if (StringUtils.isEmpty(parentCode) || "0".equals(parentCode)) { // 没有父级
             sysMenuPo.setParentCode("0");
             sysMenuPo.setParentCodes("0,");
             sysMenuPo.setTreeLeaf(0);

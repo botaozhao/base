@@ -11,6 +11,6 @@ public class CommonConstants {
     /**
      * 验证码-生成后存入session的常量
      */
-    public static final String VERIFICATION_CODE = "verificationCode";
+    public static final String VERIFICATION_CODE = "verifyCode";
 
 }

@@ -1,7 +1,3 @@
-var USER = {
-    EDIT_URL: "/rest/sys/user/update"
-};
-
 layui.config({
     base: '/static/' //静态资源所在路径
 }).extend({
@@ -16,7 +12,7 @@ layui.config({
     form.on('submit(user-form-edit)', function (data) {
         $.ajax({
             type : "POST",
-            url : USER.EDIT_URL,
+            url : URL_REST_OBJ.USER_UPDATE_URL,
             data : JSON.stringify(data.field),
             async : false,
             contentType: "application/json",

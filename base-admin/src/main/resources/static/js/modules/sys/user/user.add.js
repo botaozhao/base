@@ -1,7 +1,6 @@
 var USER = {
     FORM_ELEMENT: "user-form-group",
-    FORM_SUBMIT_ELEMENT: "user-form-save",
-    ADD_URL: "/rest/sys/user/save"
+    FORM_SUBMIT_ELEMENT: "user-form-save"
 };
 
 layui.config({
@@ -18,7 +17,7 @@ layui.config({
     form.on('submit(' + USER.FORM_SUBMIT_ELEMENT + ')', function (data) {
         $.ajax({
             type : "POST",
-            url : USER.ADD_URL,
+            url : URL_REST_OBJ.USER_ADD_URL,
             data : JSON.stringify(data.field),
             async : false,
             contentType: "application/json",

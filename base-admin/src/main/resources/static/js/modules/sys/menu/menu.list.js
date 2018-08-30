@@ -4,10 +4,6 @@
  */
 var MENU = {
     ID: "menuTreeTable",
-    LIST_URL: "/rest/sys/menu/list",
-    DEL_URL: "/rest/sys/menu/delete",
-    ADD_PAGE_URL: "/sys/menu/add/",
-    EDIT_PAGE_URL: "/sys/menu/edit/",
     TYPE: {'1':'菜单', '2':'权限'},
     IS_SHOW: {'1':'显示', '0':'隐藏'}
 };
@@ -38,7 +34,7 @@ MENU.deleteMenu = function (menuCode) {
     var $ = layui.$;
     $.ajax({
         type : "POST",
-        url : MENU.DEL_URL + "/" + menuCode,
+        url : URL_REST_OBJ.MENU_DEL_URL + "/" + menuCode,
         async : false,
         contentType: "application/json",
         dataType : "json",
@@ -68,7 +64,7 @@ MENU.addOrEditMenu = function (menuCode, edit){
     var index = layui.layer.open({
         title : edit ? "编辑菜单" : "添加菜单",
         type : 2,
-        content : edit ? MENU.EDIT_PAGE_URL + menuCode : MENU.ADD_PAGE_URL + menuCode ,
+        content : edit ? URL_PAGE_OBJ.MENU_EDIT_PAGE_URL + menuCode : URL_PAGE_OBJ.MENU_ADD_PAGE_URL + menuCode ,
         success : function(layero, index){
             setTimeout(function(){
                 layui.layer.tips('点击此处返回菜单列表', '.layui-layer-setwin .layui-layer-close', {
@@ -94,7 +90,7 @@ layui.config({
         treeGrid = layui.treeGrid;
     treeGrid.render({
         elem: '#' + MENU.ID,
-        url: MENU.LIST_URL,
+        url: URL_REST_OBJ.MENU_LIST_URL,
         type: 'get',
         cellMinWidth: 100,
         treeId: 'menuCode',         // 树形自己ID字段名称

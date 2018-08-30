@@ -1,7 +1,7 @@
 /**
  * Copyright (c) 2005-2012 springside.org.cn
  */
-package com.kviuff.common.utils;
+package com.kviuff.common.util;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -22,7 +22,7 @@ import org.apache.commons.lang3.StringEscapeUtils;
  * @author kanglan
  * @version 2018-08-15
  */
-public class EncodesUtil {
+public class EncodesUtils {
 
     private static final String DEFAULT_URL_ENCODING = "UTF-8";
     private static final char[] BASE62 = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".toCharArray();
@@ -41,7 +41,7 @@ public class EncodesUtil {
         try {
             return Hex.decodeHex(input.toCharArray());
         } catch (DecoderException e) {
-            throw ExceptionsUtil.unchecked(e);
+            throw ExceptionsUtils.unchecked(e);
         }
     }
 
@@ -134,7 +134,7 @@ public class EncodesUtil {
         try {
             return URLEncoder.encode(part, DEFAULT_URL_ENCODING);
         } catch (UnsupportedEncodingException e) {
-            throw ExceptionsUtil.unchecked(e);
+            throw ExceptionsUtils.unchecked(e);
         }
     }
 
@@ -146,7 +146,7 @@ public class EncodesUtil {
         try {
             return URLDecoder.decode(part, DEFAULT_URL_ENCODING);
         } catch (UnsupportedEncodingException e) {
-            throw ExceptionsUtil.unchecked(e);
+            throw ExceptionsUtils.unchecked(e);
         }
     }
 

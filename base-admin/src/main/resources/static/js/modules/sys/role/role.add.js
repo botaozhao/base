@@ -1,7 +1,6 @@
 var ROLE = {
     FORM_ELEMENT: "form-group",
-    FORM_SUBMIT_ELEMENT: "form-save",
-    ADD_URL: "/rest/sys/role/save"
+    FORM_SUBMIT_ELEMENT: "form-save"
 };
 
 layui.config({
@@ -18,7 +17,7 @@ layui.config({
     form.on('submit(' + ROLE.FORM_SUBMIT_ELEMENT + ')', function (data) {
         $.ajax({
             type : "POST",
-            url : ROLE.ADD_URL,
+            url : URL_REST_OBJ.ROLE_ADD_URL,
             data : JSON.stringify(data.field),
             async : false,
             contentType: "application/json",

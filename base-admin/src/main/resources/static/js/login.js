@@ -12,15 +12,17 @@ layui.config({
 
     form.render();
 
+    getCode();
+
+    $("#getVercode").click(function () {
+        getCode();
+    });
+
     //提交
     form.on('submit(submit)', function(obj){
-
-        console.log(JSON.stringify(obj.field));
-        console.log(obj.field);
-
         $.ajax({
             type : "POST",
-            url : "/rest/login/doLogin",
+            url : URL_REST_OBJ.LOGIN_URL,
             data : JSON.stringify(obj.field),
             async : false,
             contentType: "application/json",
@@ -33,7 +35,7 @@ layui.config({
                     parent.layer.msg(data.msg);
                     location.href = "/index";
                 } else {
-                    parent.layer.alert(data.msg)
+                    parent.layer.alert(data.msg);
                 }
 
             }
@@ -42,3 +44,30 @@ layui.config({
     });
 
 });
+
+/**
+ * 获取验证码
+ */
+var getCode = function () {
+    var $ = layui.$;
+    $.ajax({
+        type : "get",
+        url : URL_REST_OBJ.GET_CODE_URL,
+        async : false,
+        contentType: "application/json",
+        dataType : "json",
+        error : function(request) {
+            parent.layer.alert("Connection error");
+        },
+        success : function(data) {
+            if (data.code == 0) {
+                var tokenCode = data.tokenCode;
+                var base64Img = data.verifyCode;
+                $("#getVercode").attr("src", "data:image/gif;base64," + base64Img);
+                $("#tokenCode").val(tokenCode);
+            } else {
+                parent.layer.alert(data.msg);
+            }
+        }
+    });
+};

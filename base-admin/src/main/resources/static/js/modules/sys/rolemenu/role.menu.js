@@ -1,9 +1,7 @@
 var ROLE = {
-    SAVE_SETTING_URL: "/rest/sys/role/saveRoleMenu",
     FORM_RENDER_ELEMENT: "form-group",
     FORM_SUBMIT_ELEMENT: "form-edit",
-    FORM_MENU_ELEMENT: "menu_div",
-    MENU_JSON_URL: "/rest/sys/role/json/"
+    FORM_MENU_ELEMENT: "menu_div"
 };
 
 layui.config({
@@ -28,7 +26,7 @@ layui.config({
         var dataArray = {roleCode: roleCode,menuCode: selectMenuCode.join(",")};
         $.ajax({
             type : "POST",
-            url : ROLE.SAVE_SETTING_URL,
+            url : URL_REST_OBJ.ROLE_MENU_ADD_URL,
             // data : JSON.stringify(data.field),
             data : JSON.stringify(dataArray),
             async : false,
@@ -55,7 +53,7 @@ layui.config({
     var menuTree = new layuiXtree({
         elem: ROLE.FORM_MENU_ELEMENT,
         form: form,
-        data: ROLE.MENU_JSON_URL + roleCode
+        data: URL_REST_OBJ.ROLE_MENU_JSON_URL + roleCode
     });
 
     $("#form-cancle").click(function () {

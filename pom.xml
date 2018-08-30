@@ -27,6 +27,7 @@
         <module>base-mapper</module>
         <module>base-shiro</module>
         <module>base-api</module>
+        <module>base-redis</module>
         <module>base-admin</module>
     </modules>
 
@@ -66,6 +67,8 @@
         <kaptcha.version>2.3.2</kaptcha.version>
         <servlet.version>2.3.3</servlet.version>
         <shiro.freemarker.tag.version>1.0.0</shiro.freemarker.tag.version>
+        <shiro.redis.version>2.4.2.1-RELEASE</shiro.redis.version>
+        <commons-pool2.version>2.4.2</commons-pool2.version>
     </properties>
 
     <dependencies>
@@ -118,36 +121,17 @@
             <version>${mysql.connect.java.servion}</version>
         </dependency>
 
+        <!-- 分页插件 -->
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper-spring-boot-starter</artifactId>
+            <version>${pagerhelper.version}</version>
+        </dependency>
+
         <!-- mongodb -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-mongodb</artifactId>
-        </dependency>
-
-        <!-- https://mvnrepository.com/artifact/javax.servlet.jsp/javax.servlet.jsp-api -->
-        <dependency>
-            <groupId>javax.servlet.jsp</groupId>
-            <artifactId>javax.servlet.jsp-api</artifactId>
-            <version>${servlet.version}</version>
-            <scope>provided</scope>
-        </dependency>
-
-
-        <!-- shiro -->
-        <dependency>
-            <groupId>org.apache.shiro</groupId>
-            <artifactId>shiro-spring</artifactId>
-            <version>${shiro.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.shiro</groupId>
-            <artifactId>shiro-core</artifactId>
-            <version>${shiro.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.shiro</groupId>
-            <artifactId>shiro-web</artifactId>
-            <version>${shiro.version}</version>
         </dependency>
 
         <!-- fastjson -->
@@ -157,7 +141,7 @@
             <version>${fastjson.version}</version>
         </dependency>
 
-        <!--commons -->
+        <!-- commons -->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
@@ -194,13 +178,6 @@
             <version>${commons-codec.version}</version>
         </dependency>
 
-        <!-- 分页插件 -->
-        <dependency>
-            <groupId>com.github.pagehelper</groupId>
-            <artifactId>pagehelper-spring-boot-starter</artifactId>
-            <version>${pagerhelper.version}</version>
-        </dependency>
-
         <!-- lombok -->
         <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
         <dependency>
@@ -212,24 +189,18 @@
 
 
         <!--velocity-->
-        <dependency>
-            <groupId>org.apache.velocity</groupId>
-            <artifactId>velocity</artifactId>
-            <version>${velocity.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>joda-time</groupId>
-            <artifactId>joda-time</artifactId>
-            <version>${joda-time.version}</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.apache.velocity</groupId>-->
+            <!--<artifactId>velocity</artifactId>-->
+            <!--<version>${velocity.version}</version>-->
+        <!--</dependency>-->
 
         <!-- https://mvnrepository.com/artifact/com.github.penggle/kaptcha -->
-        <dependency>
-            <groupId>com.github.penggle</groupId>
-            <artifactId>kaptcha</artifactId>
-            <version>${kaptcha.version}</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>com.github.penggle</groupId>-->
+            <!--<artifactId>kaptcha</artifactId>-->
+            <!--<version>${kaptcha.version}</version>-->
+        <!--</dependency>-->
 
 
     </dependencies>

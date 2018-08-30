@@ -18,7 +18,7 @@ layui.config({
     form.on('submit(' + ROLE.FORM_SUBMIT_ELEMENT + ')', function (data) {
         $.ajax({
             type : "POST",
-            url : ROLE.EDIT_URL,
+            url : URL_REST_OBJ.ROLE_UPDATE_URL,
             data : JSON.stringify(data.field),
             async : false,
             contentType: "application/json",

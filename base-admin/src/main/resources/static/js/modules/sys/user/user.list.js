@@ -6,11 +6,7 @@ var USER = {
     // 当前页
     CUR_NUM: 1,
     TYPE: {'1':'超级管理员', '2':'普通管理员'},
-    STATUS: {'0':'正常', '1':'删除', '2':'停用'},
-    ADD_PAGE_URL: "/sys/user/add",
-    EDIT_PAGE_URL: "/sys/user/edit/",
-    DATA_LIST_URL: "/rest/sys/user/list",
-    DATA_DELETE_URL: "/rest/sys/user/delete/"
+    STATUS: {'0':'正常', '1':'删除', '2':'停用'}
 };
 
 /**
@@ -22,7 +18,7 @@ USER.addOrEditUser = function (userCode, edit){
     var index = layui.layer.open({
         title : edit ? "编辑用户" : "新增用户",
         type : 2,
-        content : edit ? USER.EDIT_PAGE_URL + userCode : USER.ADD_PAGE_URL,
+        content : edit ? URL_PAGE_OBJ.USER_EDIT_PAGE_URL + userCode : URL_PAGE_OBJ.USER_ADD_PAGE_URL,
         success : function(layero, index){
             setTimeout(function(){
                 layui.layer.tips('点击此处返回用户列表', '.layui-layer-setwin .layui-layer-close', {
@@ -64,7 +60,7 @@ USER.deleteUser = function (userCode) {
     var $ = layui.$;
     $.ajax({
         type : "POST",
-        url : USER.DATA_DELETE_URL + "/" + userCode,
+        url : URL_REST_OBJ.USER_DEL_URL + "/" + userCode,
         async : false,
         contentType: "application/json",
         dataType : "json",
@@ -116,7 +112,7 @@ layui.config({
 
     var userListTable = table.render({
         elem: '#' + USER.TABLE_ELEMENT,
-        url: USER.DATA_LIST_URL,
+        url: URL_REST_OBJ.USER_LIST_URL,
         cols: [[
             {type:'numbers'},
             {field: 'loginCode', title: '登录账号'},

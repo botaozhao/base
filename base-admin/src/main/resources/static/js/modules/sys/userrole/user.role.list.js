@@ -1,13 +1,11 @@
 var ROLE = {
     TABLE_ELEMENT: "table-page",
     PAGE_ELEMENT: "laypage",
-    DATA_LIST_URL: "/rest/sys/user/role/list",
     // 步长
     LIMIT_COUNT: 1,
     // 当前页
     CUR_NUM: 1,
-    IS_SYS: {'1':'是', '0':'否'},
-    SAVE_USER_ROLE: "/rest/sys/user/saveUserRole"
+    IS_SYS: {'1':'是', '0':'否'}
 };
 
 /**
@@ -30,7 +28,7 @@ layui.config({
 
     table.render({
         elem: '#' + ROLE.TABLE_ELEMENT,
-        url: ROLE.DATA_LIST_URL + "?userCode=" + userCode,
+        url: URL_REST_OBJ.USER_ROLE_LIST_URL + "?userCode=" + userCode,
         cols: [[
             {type:'checkbox', fixed: 'left'},
             {field: 'roleName', title: '角色名称'},
@@ -50,7 +48,7 @@ layui.config({
             var dataArray = {userCode: userCode, roleCode: selectRoleCode.join(",")};
             $.ajax({
                 type : "POST",
-                url : ROLE.SAVE_USER_ROLE,
+                url : URL_REST_OBJ.USER_ROLE_SAVE_URL,
                 data : JSON.stringify(dataArray),
                 async : false,
                 contentType: "application/json",

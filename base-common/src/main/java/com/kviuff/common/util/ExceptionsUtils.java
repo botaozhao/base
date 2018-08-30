@@ -1,10 +1,10 @@
-package com.kviuff.common.utils;
+package com.kviuff.common.util;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
-public class ExceptionsUtil {
+public class ExceptionsUtils {
 
     /**
      * 将CheckedException转换为UncheckedException.

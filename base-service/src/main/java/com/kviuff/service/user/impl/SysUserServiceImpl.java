@@ -3,8 +3,8 @@ package com.kviuff.service.user.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.kviuff.common.IdGen;
-import com.kviuff.common.utils.EncryptionUtil;
-import com.kviuff.common.utils.PageUtil;
+import com.kviuff.common.util.EncryptionUtils;
+import com.kviuff.common.util.PageUtils;
 import com.kviuff.entity.SysUserPo;
 import com.kviuff.mapper.user.SysUserMapper;
 import com.kviuff.service.user.SysUserService;
@@ -34,7 +34,7 @@ public class SysUserServiceImpl implements SysUserService {
     @Override
     public void insertUser(SysUserPo sysUserPo) {
         sysUserPo.setUserCode(IdGen.uuid());
-        sysUserPo.setPassword(EncryptionUtil.entryptPassword(sysUserPo.getPassword()));
+        sysUserPo.setPassword(EncryptionUtils.entryptPassword(sysUserPo.getPassword()));
         sysUserMapper.insert(sysUserPo);
     }
 
@@ -75,7 +75,7 @@ public class SysUserServiceImpl implements SysUserService {
     public PageInfo<SysUserPo> selectPageList(SysUserPo sysUserPo) {
         PageHelper.startPage(sysUserPo.getPageNo(), sysUserPo.getPageSize());
         List<SysUserPo> sysUserPoList = sysUserMapper.selectSysUserByCondition(sysUserPo);
-        return PageUtil.pageInstance(sysUserPoList);
+        return PageUtils.pageInstance(sysUserPoList);
     }
 
     /**

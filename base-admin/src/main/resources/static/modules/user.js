@@ -5,8 +5,5 @@
     t.sendAuthCode({
         elem: "#LAY-user-getsmscode",
         elemVercode: "#vercode"
-    }), a.on("click", "#getVercode", function () {
-        s(this);
-        this.src = "/login/defaultKaptcha?t=" + (new Date).getTime()
     }), e("user", {})
 });

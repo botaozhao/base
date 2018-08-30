@@ -1,4 +1,4 @@
-package com.kviuff.common.utils;
+package com.kviuff.common.util;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
@@ -21,17 +21,17 @@ import java.util.Map;
  *
  * @author panda
  */
-public class DateUtil extends org.apache.commons.lang3.time.DateUtils {
+public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
     /**
      * 私有化构造
      */
-    private DateUtil() {
+    private DateUtils() {
     }
 
     /**
      * 日志信息
      */
-    private final static Logger log = LoggerFactory.getLogger(DateUtil.class);
+    private final static Logger log = LoggerFactory.getLogger(DateUtils.class);
 
     /**
      *
